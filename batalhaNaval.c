@@ -24,14 +24,33 @@ int navio2[3] = {3,3,3};//NAVIO VERTICAL
 int linhah = 2, colunah =2;
 for (int i = 0; i < 3; i++)
 {
-    tabuleiro[linhah][colunah + i] = navio1[i];
+    if(colunah + i < 10)
+    tabuleiro[linhah][colunah + i] = 3;
 }
-
 //NAVIO VERTICAL
 int linhav = 5, colunav =7;
 for (int i = 0; i < 3; i++)
 {
-    tabuleiro[linhav + i][colunav] = navio2[i];
+    if(linhav + i < 10)
+    tabuleiro[linhav + i][colunav] = 3;
+}
+
+//NAVIOS DIAGONAL
+// -> ESQUERDA SUPERIOR PARA DIREITA INFERIOR
+int linhaDiag1 = 0, colDiag1 = 0;
+for (int i = 0; i < 3; i++)
+{
+    if(linhaDiag1 + i < 10 && colDiag1 + i < 10)
+    tabuleiro[linhaDiag1 + i][colDiag1 + i] = 3;
+}
+
+//NAVIOS DIAGONAL
+// -> DIREITA SUPERIOR PARA ESQUERDA INFERIOR
+int linhaDiag2 = 0, colDiag2 = 9;
+for (int i = 0; i < 3; i++)
+{
+    if(linhaDiag2 + i < 10 && colDiag2 - i >= 0)
+    tabuleiro[linhaDiag2 + i][colDiag2 - i] = 3;
 }
 
 //EXIBIÇAO
@@ -45,10 +64,7 @@ for(int i = 0; i < 10; i++)
     printf("\n");
 }
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+  
 
     // Nível Mestre - Habilidades Especiais com Matrizes
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
