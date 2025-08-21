@@ -15,6 +15,35 @@ for (int i = 0; i < 10; i++)
         }
     }
 
+//NAVIOS
+
+int navio1[3] = {3,3,3};//NAVIO HORIZONTAL
+int navio2[3] = {3,3,3};//NAVIO VERTICAL
+
+//NAVIO HORIZONTAL
+int linhah = 2, colunah =2;
+for (int i = 0; i < 3; i++)
+{
+    tabuleiro[linhah][colunah + i] = navio1[i];
+}
+
+//NAVIO VERTICAL
+int linhav = 5, colunav =7;
+for (int i = 0; i < 3; i++)
+{
+    tabuleiro[linhav + i][colunav] = navio2[i];
+}
+
+//EXIBIÇAO
+printf("\n--- TABULEIRO BATALHA NAVAL ---\n");
+for(int i = 0; i < 10; i++)
+{
+    for(int j = 0; j < 10; j++)
+    {
+        printf("%d ", tabuleiro[i] [j]);
+    }
+    printf("\n");
+}
 
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
