@@ -1,71 +1,116 @@
 #include <stdio.h>
-int main() {
-    
-//TAMANHO DO TABULEIRO
 
-int tabuleiro[10][10];
+#define T 10 //tamanho do tabuleiro
+#define H 5 //tamanho das habilidades
 
-//INICIALIZAR TUDO COM - 0 
-
-for (int i = 0; i < 10; i++)
+//função para imprimir o tabuleiro
+void imprimetabuleiro(int tabuleiro[T][T])
+{
+    for(int i = 0; i < T; i++)
     {
-        for(int j = 0; j < 10; j++)
+        for(int j = 0; j < T; j++)
         {
-            tabuleiro [i][j] = 0;
+            if(tabuleiro[i][j] == 0){   //AGUA
+                printf("0 ");
+            }
+            else if (tabuleiro[i][j] == 3){   //NAVIO
+                printf("3 ");
+            }
+            else if(tabuleiro[i][j] == 5){   //HABILIDADE
+                printf("5 ");
+            }
+        }
+        printf("\n");
+    }
+     printf("\n");
+}
+
+//função para aplicar habilidae
+void aplicarhabilidade(int tabuleiro[T][T], int habilidade[5][5], int origemlinha, int origemcoluna)
+{
+    int centro = 2; // centro matriz 5x5
+    for(int i = 0; i < 5; i++)
+    {
+        for(int j = 0; j < 5; j++)
+        {
+            if(habilidade[i][j] == 1) 
+            {
+                int linha = origemlinha + (i - centro);
+                int coluna = origemcoluna + (j - centro);
+                
+                // verificação se esta no tabuleiro
+                if(linha >= 0 && linha < T && coluna >= 0 && coluna < T)
+                {
+                    if(tabuleiro[linha][coluna] == 0) //so marca se for agua
+                        tabuleiro[linha][coluna] = 5;
+                }
+            }
         }
     }
-
-//NAVIOS
-
-int navio1[3] = {3,3,3};//NAVIO HORIZONTAL
-int navio2[3] = {3,3,3};//NAVIO VERTICAL
-
-//NAVIO HORIZONTAL
-int linhah = 2, colunah =2;
-for (int i = 0; i < 3; i++)
-{
-    if(colunah + i < 10 && tabuleiro[linhah][colunah + i] == 0)
-    tabuleiro[linhah][colunah + i] = 3;
-}
-//NAVIO VERTICAL
-int linhav = 5, colunav =7;
-for (int i = 0; i < 3; i++)
-{
-    if(linhav + i < 10 && tabuleiro[linhav + i][colunav] == 0)
-    tabuleiro[linhav + i][colunav] = 3;
 }
 
-//NAVIOS DIAGONAL 1
-// -> ESQUERDA SUPERIOR PARA DIREITA INFERIOR
-int linhaDiag1 = 0, colDiag1 = 0;
-for (int i = 0; i < 3; i++)
-{
-    if(linhaDiag1 + i < 10 && colDiag1 + i < 10 && tabuleiro[linhaDiag1 + i][colDiag1 + i] == 0)
-    tabuleiro[linhaDiag1 + i][colDiag1 + i] = 3;
-}
 
-//NAVIOS DIAGONAL 2 
-// -> DIREITA SUPERIOR PARA ESQUERDA INFERIOR
-int linhaDiag2 = 0, colDiag2 = 9;
-for (int i = 0; i < 3; i++)
+
+int main() {
+    
+// Criar tabuleiro vazio
+int tabuleiro[T][T] = {0};
+
+// Navios (valor 3)
+
+tabuleiro[0][2] = 3;
+tabuleiro[1][2] = 3;
+tabuleiro[2][0] = 3;
+tabuleiro[2][1] = 3;
+tabuleiro[2][2] = 3;
+
+printf("--- TABULEIRO INICIAL ---\n");
+imprimetabuleiro(tabuleiro);
+
+
+//Habilidades
+
+//cone
+int cone[5][5] = {0};
+for(int i =0; i < 5; i++)
 {
-    if(linhaDiag2 + i < 10 && colDiag2 - i >= 0 && tabuleiro[linhaDiag2 + i][colDiag2 - i] == 0)
+    for(int j = 2 - i; j <= 2 + i; j++)
     {
-         tabuleiro[linhaDiag2 + i][colDiag2 - i] = 3;
+        if(j >= 0 && j < 5)
+        cone[i][j] = 1;
     }
 }
 
-//EXIBIÇAO
-printf("\n--- TABULEIRO BATALHA NAVAL ---\n");
-for(int i = 0; i < 10; i++)
+//cruz
+int cruz[5][5] = {0};
+for(int i = 0; i < 5; i++)
 {
-    for(int j = 0; j < 10; j++)
-    {
-        printf("%d ", tabuleiro[i] [j]);
-    }
-    printf("\n");
+    cruz[2][i] = 1;
+    cruz[i][2] = 1;
 }
 
-  
-    return 0;
+//octaedro
+int octaedro[5][5] = {0};
+for(int i = 0; i < 5; i++)
+{
+    for(int j = 0; j < 5; j++)
+    {
+        if( ((i == 2) && (j >= 0 && j <= 4)) ||  // linha central
+            ((i == 1 || i == 3 ) && (j >= 1 && j <= 3)) || //linhas acima e abaixo
+            ((i == 0 || i == 4) && (j == 2)) ) // linhas extremas
+        {
+            octaedro[i][j] = 1;
+        }
+    }
+}
+// aplicar habilidades no tabuleiro
+aplicarhabilidade(tabuleiro, cone, 1, 2);
+aplicarhabilidade(tabuleiro, cruz, 4, 4);
+aplicarhabilidade(tabuleiro, octaedro, 7, 7);
+
+// resltado final
+printf("--- TABULEIRO COM HABILIDADES ---\n");
+imprimetabuleiro(tabuleiro);
+
+return 0;
 }
