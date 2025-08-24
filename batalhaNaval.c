@@ -16,9 +16,13 @@ void imprimetabuleiro(int tabuleiro[T][T])
             else if (tabuleiro[i][j] == 3){   //NAVIO
                 printf("3 ");
             }
-            else if(tabuleiro[i][j] == 5){   //HABILIDADE
+            else if(tabuleiro[i][j] == 5){   //HABILIDADE cone
                 printf("5 ");
-            }
+            } else if(tabuleiro[i][j] == 6){   //HABILIDADE cruz
+                printf("6 ");
+            }else if(tabuleiro[i][j] == 7){   //HABILIDADE octaedro 
+                printf("7 ");    
+            }    
         }
         printf("\n");
     }
@@ -26,7 +30,7 @@ void imprimetabuleiro(int tabuleiro[T][T])
 }
 
 //função para aplicar habilidae
-void aplicarhabilidade(int tabuleiro[T][T], int habilidade[5][5], int origemlinha, int origemcoluna)
+void aplicarhabilidade(int tabuleiro[T][T], int habilidade[5][5], int origemlinha, int origemcoluna, int valor)
 {
     int centro = 2; // centro matriz 5x5
     for(int i = 0; i < 5; i++)
@@ -42,7 +46,7 @@ void aplicarhabilidade(int tabuleiro[T][T], int habilidade[5][5], int origemlinh
                 if(linha >= 0 && linha < T && coluna >= 0 && coluna < T)
                 {
                     if(tabuleiro[linha][coluna] == 0) //so marca se for agua
-                        tabuleiro[linha][coluna] = 5;
+                        tabuleiro[linha][coluna] = valor;
                 }
             }
         }
@@ -104,9 +108,9 @@ for(int i = 0; i < 5; i++)
     }
 }
 // aplicar habilidades no tabuleiro
-aplicarhabilidade(tabuleiro, cone, 1, 2);
-aplicarhabilidade(tabuleiro, cruz, 4, 4);
-aplicarhabilidade(tabuleiro, octaedro, 7, 7);
+aplicarhabilidade(tabuleiro, cone, 1, 2, 5);
+aplicarhabilidade(tabuleiro, cruz, 4, 4, 6);
+aplicarhabilidade(tabuleiro, octaedro, 7, 7, 7);
 
 // resltado final
 printf("--- TABULEIRO COM HABILIDADES ---\n");
